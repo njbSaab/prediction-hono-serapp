@@ -1,0 +1,25 @@
+{
+  "name": "forecast-server",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.4.0",
+    "@hono/zod-validator": "^0.7.0",
+    "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
+    "hono": "^4.7.10",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250605.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "dotenv": "^16.5.0",
+    "wrangler": "^4.16.1"
+  }
+}

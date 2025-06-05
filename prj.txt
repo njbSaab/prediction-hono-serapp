@@ -1,0 +1,168 @@
+forecast-server/
+├── src/
+│   ├── api/                    # Маршруты API
+│   │   ├── auth/               # Маршруты для авторизации
+│   │   │   ├── index.ts        # Основной файл маршрутов авторизации
+│   │   │   ├── routes.ts       # Определение маршрутов (регистрация, вход, сброс пароля)
+│   │   │   ├── controllers.ts  # Логика обработки запросов
+│   │   │   ├── schemas.ts      # Схемы валидации (zod)
+│   │   │   └── services.ts     # Бизнес-логика (например, работа с D1, ImgBB)
+│   │   ├── tasks/              # Маршруты для управления заданиями
+│   │   │   ├── index.ts
+│   │   │   ├── routes.ts
+│   │   │   ├── controllers.ts
+│   │   │   ├── schemas.ts
+│   │   │   └── services.ts
+│   │   └── users/              # Маршруты для управления пользователями (для админ-панели)
+│   │       ├── index.ts
+│   │       ├── routes.ts
+│   │       ├── controllers.ts
+│   │       ├── schemas.ts
+│   │       └── services.ts
+│   ├── config/                 # Конфигурации
+│   │   ├── env.ts             # Загрузка переменных окружения
+│   │   └── db.ts              # Настройка подключения к D1
+│   ├── middleware/             # Пользовательские middleware
+│   │   ├── auth.ts            # Проверка JWT-токенов
+│   │   └── error.ts           # Обработка ошибок
+│   ├── lib/                    # Утилиты и общие функции
+│   │   ├── imgbb.ts           # Интеграция с ImgBB API
+│   │   ├── jwt.ts             # Генерация и проверка JWT
+│   │   └── email.ts           # Отправка email (например, через Cloudflare Email Workers или сторонний сервис)
+│   ├── types/                  # Типы TypeScript
+│   │   ├── user.ts            # Типы для пользователей
+│   │   ├── task.ts            # Типы для заданий
+│   │   └── env.ts             # Типы для переменных окружения
+│   └── index.ts                # Точка входа (основной файл Hono)
+├── scripts/                    # Скрипты для миграций и других задач
+│   └── schema.sql             # SQL-миграции для D1
+├── wrangler.toml               # Конфигурация Cloudflare Workers
+├── package.json                # Зависимости и скрипты
+├── tsconfig.json               # Настройки TypeScript
+└── README.md                   # Документация проекта\\
+
+
+//2 
+Структура проекта для Hono (Сервер API)
+Общая концепция:
+
+Проект для Hono будет развернут на Cloudflare Workers, с базой данных Cloudflare D1.
+Структура будет разделена на модули: маршруты (routes), сервисы (services), модели (models) и утилиты (utils).
+API будет обрабатывать:
+Сохранение данных пользователя и прогноза (POST /users).
+Получение списка пользователей и их прогнозов (GET /users).
+Сохранение результата события (POST /event/result).
+Интеграция с почтовиком (Fastify) через HTTP-запросы для отправки кодов верификации и массовых рассылок.
+Рекомендуемая структура директорий:
+
+
+forecast-server/
+├── src/
+│   ├── routes/
+│   │   ├── users.ts          # Маршруты для пользователей (CRUD)
+│   │   ├── events.ts         # Маршруты для событий (CRUD)
+│   │   └── index.ts          # Агрегация маршрутов
+│   ├── services/
+│   │   ├── userService.ts    # Логика для пользователей
+│   │   ├── eventService.ts   # Логика для событий
+│   │   └── logService.ts     # Логирование действий
+│   ├── models/
+│   │   ├── user.ts           # Интерфейс пользователя
+│   │   ├── event.ts          # Интерфейс события
+│   │   └── log.ts            # Интерфейс логов
+│   ├── utils/
+│   │   ├── db.ts             # Работа с D1
+│   │   ├── validation.ts     # Валидация с zod
+│   │   └── config.ts         # Переменные окружения
+│   ├── middleware/
+│   │   ├── auth.ts           # Проверка JWT для админ-роутов
+│   │   └── logger.ts         # Кастомное логирование
+│   └── index.ts              # Точка входа Hono
+├── scripts/
+│   └── schema.sql            # SQL-миграции
+├── wrangler.toml             # Конфигурация Cloudflare Workers
+├── package.json              # Зависимости
+├── tsconfig.json             # Настройки TypeScript
+└── README.md                 # Документация
+Описание компонентов:
+
+routes/: Содержит маршруты API.
+users.ts: Эндпоинты для работы с пользователями (POST /users, GET /users).
+events.ts: Эндпоинт для сохранения результата события (POST /event/result).
+index.ts: Агрегирует все маршруты и подключает их к приложению Hono.
+services/: Бизнес-логика.
+userService.ts: Сохранение и получение пользователей/прогнозов из D1.
+eventService.ts: Сохранение результата события и вызов почтовика для рассылки.
+mailService.ts: Отправка HTTP-запросов к почтовику (Fastify) для верификации и рассылок.
+models/: Интерфейсы TypeScript для типизации данных.
+user.ts: Модель пользователя (email, прогноз).
+event.ts: Модель события (результат).
+utils/: Вспомогательные функции.
+db.ts: Инициализация D1 и общие SQL-запросы.
+validation.ts: Валидация email и прогнозов.
+config.ts: Переменные окружения (например, адрес почтовика, ключи Brevo).
+wrangler.toml: Конфигурация Cloudflare Workers и D1 (база данных, переменные окружения).
+package.json: Зависимости (hono, @cloudflare/workers-types) и скрипты (dev, deploy).
+tsconfig.json: Настройки TypeScript для строгой типизации.
+
+Интеграция с другими частями МВП
+Клиентская часть (Vue через CDN):
+Форма отправляет запросы:
+POST /users (с email и прогнозом, после верификации).
+Запрос к почтовику (POST /mail/verification) для получения кода.
+Интеграция через Axios (CDN): отправка JSON на API.
+Пример запроса: axios.post('https://api.example.workers.dev/users', { email, result }).
+Админка (Angular):
+Запросы к API:
+GET /users: получение списка пользователей и прогнозов.
+POST /event/result: сохранение результата события.
+Интеграция через HttpClient: отправка запросов к Hono API.
+Пример: this.http.get('https://api.example.workers.dev/users').
+Почтовик (Fastify):
+Эндпоинты:
+POST /mail/verification: отправка кода верификации на email.
+POST /mail/bulk: массовая рассылка на основе результата события.
+Hono (mailService.ts) отправляет HTTP-запросы к почтовику (например, fetch('http://mail.example.com/mail/bulk', { method: 'POST', body: JSON.stringify({ result, users }) })).
+
+-- Таблица пользователей
+CREATE TABLE IF NOT EXISTS users (
+  uuid VARCHAR(36) PRIMARY KEY, -- Уникальный UUID
+  email TEXT NOT NULL UNIQUE, -- Уникальный email
+  name VARCHAR(191) NOT NULL, -- Имя пользователя
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  emailVerified BOOLEAN DEFAULT FALSE, -- Подтверждён ли email
+  verificationCodeHash TEXT, -- Хэшированный код верификации
+  verificationCodeExpiresAt DATETIME, -- Время истечения кода
+  userPayload TEXT, -- JSON с метаданными (browser, os, и т.д.)
+  userResaultCollect TEXT, -- JSON с результатами (по умолчанию null)
+  isCorrectAnswer BOOLEAN DEFAULT NULL, -- Правильность прогноза
+  userResault INTEGER DEFAULT NULL, -- Прогноз (1 = win1, 2 = win2, 3 = draw)
+  isHistory TEXT -- JSON с историей действий
+);
+
+-- Таблица событий
+CREATE TABLE IF NOT EXISTS events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Уникальный ID события
+  name TEXT NOT NULL, -- Название события (например, "Матч Барселона - Реал")
+  result INTEGER DEFAULT NULL, -- Результат события (1 = win1, 2 = win2, 3 = draw)
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+hono 
+Для твоего проекта: что использовать
+Обязательно:
+JWT и Bearer Authentication для авторизации.
+CORS, Secure Headers, Logger для безопасности и отладки.
+Body Limit для ограничения размера запросов.
+Timeout для внешних API (ImgBB, Fastify).
+Context Storage для передачи данных пользователя.
+Request ID и Timing для мониторинга.
+Trailing Slash для единообразия URL.
+Pretty JSON для разработки.
+Опционально:
+Cache для кэширования данных с KV.
+IP Restriction для защиты админ-панели.
+Language для локализации email.
+Proxy для пересылки запросов к Fastify.
+Streaming для больших ответов.
+Testing для юнит-тестов.
