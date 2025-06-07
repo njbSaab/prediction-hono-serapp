@@ -1,7 +1,12 @@
-import { Hono } from 'hono';
+import { Context, Next } from 'hono';
 import { verify } from 'jsonwebtoken';
+import type { Env } from '../utils/config';
+import type { Variables } from '../types'; // Импортируйте типы
 
-export const authMiddleware = async (c: Hono.Context, next: () => Promise<void>) => {
+export const authMiddleware = async (
+  c: Context<{ Bindings: Env; Variables: Variables }>,
+  next: Next
+) => {
   const authHeader = c.req.header('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return c.json({ error: 'Unauthorized' }, 401);
@@ -9,10 +14,11 @@ export const authMiddleware = async (c: Hono.Context, next: () => Promise<void>)
 
   const token = authHeader.replace('Bearer ', '');
   try {
-    const payload = verify(token, c.env.JWT_SECRET);
-    c.set('user', payload);
+    const payload = verify(token, c.env.JWT_SECRET) as { uuid: string; email: string };
+    c.set('user', payload); // Теперь это типизировано и не вызовет ошибку
     await next();
-  } catch (err) {
-    return c.json({ error: 'Invalid token' }, 401);
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error('Unknown error');
+    return c.json({ error: 'Invalid token', details: error.message }, 401);
   }
 };

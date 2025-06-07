@@ -1,0 +1,102 @@
+### Получение главной страницы
+GET http://localhost:8787/
+Accept: application/json
+
+### Получение всех пользователей (авторизация через JWT)
+GET http://localhost:8787/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZTY2MTMxMGQtZWE3Zi00N2ViLTkyZWEtZmI3ZGM2MGViOGI3IiwiZW1haWwiOiJkZW1vQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ5MTQwNzk5LCJleHAiOjE3NDk3NDU1OTl9.EbKZG9ynl8zw2SIvqWkp-V-I_9H9spSBCW2AwC0cI8A
+
+### Получение пользователя по UUID (авторизация через JWT)
+GET http://localhost:8787/users/e661310d-ea7f-47eb-92ea-fb7dc60eb8b7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZTY2MTMxMGQtZWE3Zi00N2ViLTkyZWEtZmI3ZGM2MGViOGI3IiwiZW1haWwiOiJkZW1vQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ5MTQwNzk5LCJleHAiOjE3NDk3NDU1OTl9.EbKZG9ynl8zw2SIvqWkp-V-I_9H9spSBCW2AwC0cI8A
+
+### Создание пользователя (требует заголовок X-Email-Verified)
+POST http://localhost:8787/users
+Content-Type: application/json
+X-Email-Verified: true
+
+{
+  "email": "demo@s.com",
+  "name": "Demo User",
+  "userPayload": "status:tester"
+}
+
+### Удаление пользователя по UUID (авторизация через JWT)
+DELETE http://localhost:8787/users/e661310d-ea7f-47eb-92ea-fb7dc60eb8b7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZTY2MTMxMGQtZWE3Zi00N2ViLTkyZWEtZmI3ZGM2MGViOGI3IiwiZW1haWwiOiJkZW1vQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ5MTQwNzk5LCJleHAiOjE3NDk3NDU1OTl9.EbKZG9ynl8zw2SIvqWkp-V-I_9H9spSBCW2AwC0cI8A
+
+### Получение всех пользователей (админ, через X-Admin-Secret)
+GET http://localhost:8787/users/vietget-admin/users
+X-Admin-Secret: vietget-admin
+
+### Получение пользователя по UUID (админ, через X-Admin-Secret)
+GET http://localhost:8787/users/vietget-admin/users/e661310d-ea7f-47eb-92ea-fb7dc60eb8b7
+X-Admin-Secret: vietget-admin
+
+### Создание пользователя (админ)
+POST http://localhost:8787/users/vietget-admin/users
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+
+{
+  "email": "adminuser@gadmin.com",
+  "name": "Admin User",
+  "userPayload": "admin: true",
+  "userResault":  1
+}
+
+### Удаление пользователя (админ)
+DELETE http://localhost:8787/users/vietget-admin/users/e661310d-ea7f-47eb-92ea-fb7dc60eb8b7
+X-Admin-Secret: super-secret
+
+
+### Создание пользователя 
+POST http://localhost:8787/events 
+Content-Type: application/json
+{"name": "Barca : Real"}
+
+### Получение поста 
+GET http://localhost:8787/events
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZTY2MTMxMGQtZWE3Zi00N2ViLTkyZWEtZmI3ZGM2MGViOGI3IiwiZW1haWwiOiJkZW1vQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ5MTQwNzk5LCJleHAiOjE3NDk3NDU1OTl9.EbKZG9ynl8zw2SIvqWkp-V-I_9H9spSBCW2AwC0cI8A
+
+### Получение всех пользователей (авторизация через JWT)
+GET http://localhost:8787/events/vietget-admin/events
+X-Admin-Secret: vietget-admin
+
+GET http://localhost:8787/events/vietget-admin/events/1
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+
+
+POST http://localhost:8787/events/vietget-admin/events
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+{
+  "name": "Матч Барселона - Реал (Обновлено)"
+}
+
+
+POST http://localhost:8787/events/vietget-admin/events/1
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+{
+  "name": "Матч Барселона - Реал (Обновлено)",
+  "result": 2
+}
+
+DELETE http://localhost:8787/events/vietget-admin/events/1
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+
+
+# получение токена !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+curl -X POST https://forecast-server.najib-saab.workers.dev/users \
+  -H "Content-Type: application/json" \
+  -H "X-Email-Verified: true" \
+  -d '{"email":"newuser2@example.com","name":"New User 2","userPayload":"role:user"}'
+
+POST https://forecast-server.najib-saab.workers.dev/users
+Content-Type: application/json
+X-Email-Verified: true
+{"email":"newuser2@example.com","name":"New User 2","userPayload":"role:user"}
