@@ -100,3 +100,67 @@ POST https://forecast-server.najib-saab.workers.dev/users
 Content-Type: application/json
 X-Email-Verified: true
 {"email":"newuser2@example.com","name":"New User 2","userPayload":"role:user"}
+
+
+GET https://forecast-server.najib-saab.workers.dev/users 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiOTFhYjYxZTgtODg0MS00Y2RmLWI1YzktMTczZWU4NzkwYTU5IiwiZW1haWwiOiJuZXd1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ5MjgyMTY3LCJleHAiOjE3NDk4ODY5Njd9.koAEyzFNbARhKAg7CXzrOH4uDp0ItXIb8VQiiSgL0Vc
+
+
+# refresh token 
+curl -X POST https://forecast-server.najib-saab.workers.dev/refresh-token \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <old-jwt-token>"
+
+GET https://forecast-server.najib-saab.workers.dev/events 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiOTFhYjYxZTgtODg0MS00Y2RmLWI1YzktMTczZWU4NzkwYTU5IiwiZW1haWwiOiJuZXd1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ5MjgyMTY3LCJleHAiOjE3NDk4ODY5Njd9.koAEyzFNbARhKAg7CXzrOH4uDp0ItXIb8VQiiSgL0Vc
+
+
+# создание 
+POST https://forecast-server.najib-saab.workers.dev/events/vietget-admin/events
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+{
+  "name": "SOCCER",
+  "type": "premier league",
+  "endAt": "2025-06-23T20:00:00Z",
+  "memberA": "Barca",
+  "memberB": "Chelsea",
+  "imageMemberA": "https://vi.top4winners.top/images/image-1749316636805-996780778.png",
+  "imageMemberB": "https://vi.top4winners.top/images/image-1749316644896-818029555.png",
+  "result": null
+}
+
+### Создание пользователя 
+POST http://localhost:8787/events 
+Content-Type: application/json
+{
+  "name": "user1",
+  "email": "user1@mail.com"
+}
+
+POST http://forecast-server.najib-saab.workers.dev/users
+Content-Type: application/json
+X-Email-Verified: true
+{
+  "email": "user2@mail.com",
+  "name": "user2",
+  "userResault": 1
+}
+
+
+GET https://forecast-server.najib-saab.workers.dev/events
+Content-Type: application/json
+
+
+GET https://forecast-server.najib-saab.workers.dev/users/statistics
+Content-Type: application/json
+X-Email-Verified: true
+
+
+GET https://forecast-server.najib-saab.workers.dev/statistics
+Content-Type: application/json
+X-Email-Verified: true
+
+
