@@ -1,3 +1,6 @@
+wrangler tail     
+wrangler build
+
 forecast-server/
 ├── src/
 │   ├── api/                    # Маршруты API

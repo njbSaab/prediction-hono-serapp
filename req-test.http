@@ -99,7 +99,7 @@ curl -X POST https://forecast-server.najib-saab.workers.dev/users \
 POST https://forecast-server.najib-saab.workers.dev/users
 Content-Type: application/json
 X-Email-Verified: true
-{"email":"newuser2@example.com","name":"New User 2","userPayload":"role:user"}
+{"email":"test@example.com","name":"New User 2","userPayload":"role:user"}
 
 
 GET https://forecast-server.najib-saab.workers.dev/users 
@@ -140,27 +140,103 @@ Content-Type: application/json
   "email": "user1@mail.com"
 }
 
+GET https://forecast-server.najib-saab.workers.dev/statistics
+Content-Type: application/json
+X-Email-Verified: true
+
+GET https://forecast-server.najib-saab.workers.dev/events/vietget-admin/events
+X-Admin-Secret: vietget-admin
+
+GET https://forecast-server.najib-saab.workers.dev/events/vietget-admin/events/1
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+
+
+POST https://forecast-server.najib-saab.workers.dev/events/vietget-admin/events/1
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+{
+  "name": "Барселона - Реал (Обновлено)"
+}
+
+
+
 POST http://forecast-server.najib-saab.workers.dev/users
 Content-Type: application/json
 X-Email-Verified: true
 {
-  "email": "user2@mail.com",
-  "name": "user2",
-  "userResault": 1
+  "email": "njnew1@new.com",
+  "name": "njnew",
+  "userResault": 1,
+  "eventsSiteName": "flt1"
 }
 
 
-GET https://forecast-server.najib-saab.workers.dev/events
+POST https://forecast-server.najib-saab.workers.dev/user-events 
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZmRhYTBlODQtZjJkOS00YTk1LTk3MDMtM2EzYzYxMTQ5ZWJhIiwiZW1haWwiOiJuam5ld0BuZXcuY29tIiwiaWF0IjoxNzUwNDExOTI4LCJleHAiOjE3NTIyMjYzMjh9.p8w5IAuIwTMn8O1oEcecGkNSzSLNg1aH5U_Gme1qsJw" 
+{"user_uuid":"7ce2a7d5-a541-451e-8794-c06e8b7cbc92","event_id":2,"userResault":1,"userPayload":"{\"selectedOption\":\"1\",\"timestamp\":\"2025-06-20T11:30:00Z\"}"}
+
+GET https://forecast-server.najib-saab.workers.dev/vietget-admin/events
+X-Admin-Secret: vietget-admin
+
+GET https://forecast-server.najib-saab.workers.dev/vietget-admin/events/1
+X-Admin-Secret: vietget-admin
+
+PATCH https://forecast-server.najib-saab.workers.dev/events/vietget-admin/events/1
+Content-Type: application/json
+X-Admin-Secret: vietget-admin
+{
+  "name": "Матч Барселона - Реал (Обновлено)"
+}
+
+GET http://forecast-server.najib-saab.workers.dev/vietget-admin/events
+X-Admin-Secret: vietget-admin
+
+
+PATCH http://forecast-server.najib-saab.workers.dev/vietget-admin/events/1
+X-Admin-Secret: vietget-admin
+Content-Type: application/json" 
+{
+  "memberA":"Member1",
+  "memberB":"Member2",
+      "id": 1,
+    "name": "Updated Event Name",
+    "type": "NBA FINALS",
+    "endAt": "2025-06-19T21:44:00.000Z",
+    "memberA": "Oklahoma City Thunder",
+    "memberB": "Indiana Pacers",
+    "imageMemberA": "https://vi.top4winners.top/images/image-1749316636805-996780778.png",
+    "imageMemberB": "https://vi.top4winners.top/images/image-1749316644896-818029555.png",
+    "result": null,
+    "eventResult": 1,
+    "grandPrize": "400 FREESPINS",
+    "everyoneForPrize": " + 20 FS CHO MỖI NGƯỜI KHI THAM GIA",
+    "eventsSiteName": "https://vietget.online/lp200",
+    "createdAt": "2025-06-07 17:18:16"
+}
+
+
+GET http://forecast-server.najib-saab.workers.dev/events?eventsSiteName=ftl1
+Content-Type: application/json
+
+GET http://forecast-server.najib-saab.workers.dev/events?eventsSiteName=lp200
 Content-Type: application/json
 
 
-GET https://forecast-server.najib-saab.workers.dev/users/statistics
-Content-Type: application/json
-X-Email-Verified: true
+GET https://forecast-server.najib-saab.workers.dev/vietget-admin/users
+X-Admin-Secret: vietget-admin
 
 
-GET https://forecast-server.najib-saab.workers.dev/statistics
+GET https://forecast-server.najib-saab.workers.dev/vietget-admin/users/38d63851-f958-42ad-9956-889e1c148a46
+X-Admin-Secret: vietget-admin
 Content-Type: application/json
-X-Email-Verified: true
+{"emailVerified":false}
+
+PATCH https://forecast-server.najib-saab.workers.dev/vietget-admin/users/38d63851-f958-42ad-9956-889e1c148a46
+X-Admin-Secret: vietget-admin
+Content-Type: application/json
+{"email":"admin@admin.com"}
+
 
 
