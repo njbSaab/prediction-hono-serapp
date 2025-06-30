@@ -1,13 +1,1 @@
-name = "forecast-server"
-main = "src/index.ts"
-compatibility_date = "2025-06-06"
-compatibility_flags = ["nodejs_compat"]
 
-[[d1_databases]]
-binding = "DB"
-database_name = "test-forecast-app"
-database_id = "6c4f1f07-eaa7-4e5a-a6a1-7df2d5fc653e"
-
-[vars]
-JWT_SECRET = "095742b4da24663046794ee4e09fe597ac89450f3d73f107ef4cedd5426f8f83"
-ADMIN_SECRET = "vietget-admin"
